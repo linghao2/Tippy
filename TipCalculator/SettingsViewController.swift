@@ -16,7 +16,7 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet var maximumLabel: UILabel!
     @IBOutlet var maximumStepper: UIStepper!
-    
+        
     static let MINIMUM_PERCENT = "MimimumPercent"
     static let MAXIMUM_PERCENT = "MaximumPercent"
     
@@ -35,11 +35,14 @@ class SettingsViewController: UIViewController {
             maximumStepper.value = maxPercent
             setMaximumPercent(maxPercent)
         }
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    // MARK: minimum and maximum stepper
 
     @IBAction func minimumChanged(_ sender: UIStepper) {
         setMinimumPercent(sender.value)
@@ -66,4 +69,5 @@ class SettingsViewController: UIViewController {
         maximumLabel.text = "\(intValue)%"
         minimumStepper.maximumValue = maxPercent
     }
+    
 }

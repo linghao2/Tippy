@@ -14,21 +14,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     let LAST_TIME = "LAST_TIME"
+    let minutes10 : UInt64 = 600000000000
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UIView.appearance().tintColor = UIColor.init(red: 51/255, green: 153/255, blue: 153/255, alpha: 1.0)
         
         let defaults = UserDefaults.init()
+        let now = DispatchTime.now().uptimeNanoseconds
         if (defaults.object(forKey: LAST_TIME) != nil) {
             let lastTime = defaults.object(forKey: LAST_TIME) as! UInt64
-            let now = DispatchTime.now().uptimeNanoseconds
-            let timeInterval = now - lastTime
+            let timeInterval = now > lastTime ? now - lastTime : lastTime - now
             // clear the bill amount after 10 minutes
-            if timeInterval > 600000000000 {
+            if timeInterval > minutes10 {
                 defaults.removeObject(forKey: TipViewController.BILL_AMOUNT)
             }
         }
-        defaults.set(DispatchTime.now().uptimeNanoseconds, forKey: LAST_TIME)
+        defaults.set(now, forKey: LAST_TIME)
 
         return true
     }
